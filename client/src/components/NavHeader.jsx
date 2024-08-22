@@ -1,6 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../UserContext";
 
 export default function NavHeader() {
+  const {user} = useContext(UserContext);
+  let className = 'text-2xl w-60';
+  
+  if (user) {
+    className += ' text-center bg-primary text-white rounded-3xl py-2';
+  }
+
   return (
     <header className="border-b border-b-gray-400">
       <div className="flex justify-between items-center pb-4">
@@ -11,18 +20,33 @@ export default function NavHeader() {
           <span className='font-semibold text-3xl text-primary'>MyKitcken</span>
         </Link>
         <div className="flex gap-40 absolute left-1/2 transform -translate-x-1/2">
-          <button className="text-2xl w-60">My Recipe</button>
-          <button className="text-2xl w-60">My Storage</button>
+          <NavLink to="/recipe" className={({ isActive }) => isActive 
+            ? "bg-primary text-white text-2xl px-16 py-2 rounded-3xl"
+            : "text-black text-2xl px-16 py-2"
+          }>
+            My Recipe
+          </NavLink>
+          <NavLink to="/storage" className={({ isActive }) => isActive 
+            ? "bg-primary text-white text-2xl px-16 py-2 rounded-3xl"
+            : "text-black text-2xl px-16 py-2"
+          }>
+            My Storage
+          </NavLink>
         </div>
         <Link className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4'>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-7">
             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
           <div className='bg-gray-500 text-white rounded-full border border-gray-500 overflow-hidden'>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 relative top-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-7 relative top-1">
               <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
             </svg>
           </div>
+          {!!user && (
+            <div className="text-xl">
+              {user.name}
+            </div>
+          )}
         </Link>
       </div>
       

@@ -1,18 +1,18 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-// import { UserContext } from "../UserContext";
+import { UserContext } from "../UserContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
-  // const {setUser} = useContext(UserContext);
+  const {setUser} = useContext(UserContext);
   async function handleLoginSubmit(ev) {
     ev.preventDefault();
     try {
       const {data} = await axios.post('/login', {email, password});
-      // setUser(data);
+      setUser(data);
       alert('Login successful');
       setRedirect(true);
     } catch (e) {
@@ -22,7 +22,7 @@ export default function LoginPage() {
 }
 
   if (redirect) {
-    return <Navigate to={'/'} />
+    return <Navigate to={'/recipe'} />
   }
 
   return (
