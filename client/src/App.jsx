@@ -8,6 +8,7 @@ import axios from 'axios'
 import RecipePage from './pages/RecipePage'
 import { UserContextProvider } from './UserContext'
 import StoragePage from './pages/StoragePage'
+import RecipeFormPage from './pages/RecipeFormPage'
 
 
 axios.defaults.baseURL = 'http://localhost:4000';
@@ -24,6 +25,7 @@ function App() {
           <Route path='/register' element={<RegisterPage />}></Route>
           <Route path='/recipe' element={<RecipePage />}></Route>
           <Route path='/storage' element={<StoragePage />}></Route>
+          <Route path='/recipe/new' element={<RecipeFormPage />}></Route>
         </Route>
       </Routes>
     </UserContextProvider>

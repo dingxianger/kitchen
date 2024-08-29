@@ -7,6 +7,9 @@ input[type="email"],input[type="number"]
 {
   @apply w-full border border-gray-300 my-1 py-3 px-4 rounded-2xl text-2xl;
 }
+.ingredient-input {
+  @apply text-xl border border-gray-300 rounded-3xl font-light; /* Add your custom styles */
+}
 button.primary{
   background-color: #FB5C40;
   @apply bg-primary p-2 w-full my-1 text-white text-2xl rounded-2xl;

@@ -1,6 +1,14 @@
+import { useContext } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { UserContext } from "../UserContext";
 
 export default function IndexPage() {
+  const {user} = useContext(UserContext);
+
+  if (user) {
+    return <Navigate to={"/recipe"} />
+  }
+
   return (
     <div className="flex flex-col items-center text-center">
         <h1 className="text-primary w-2/3 pt-40 text-center font-bold text-7xl">
