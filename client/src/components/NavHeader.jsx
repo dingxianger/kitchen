@@ -44,7 +44,7 @@ export default function NavHeader() {
         </div>
         <div className="flex gap-3">
           {!!user && (
-            <button onClick={logout} className="border border-primary rounded-3xl px-6 text-lg">Logout</button>
+            <button onClick={logout} className="border border-primary rounded-3xl px-6 text-lg">Log Out</button>
           )}
           <Link className='flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-7">
