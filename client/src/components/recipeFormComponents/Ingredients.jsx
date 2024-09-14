@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Ingredients () {
+export default function Ingredients ({ onChange }) {
   
   const [ingredients, setIngredients] = useState([{ name: '', quantity: '' }]);
 
@@ -21,7 +21,7 @@ export default function Ingredients () {
   };
 
   return (
-    <div className="flex justify-around mt-20">
+    <div className="flex justify-around mt-10">
       <form>
         <h2 className="text-2xl mb-4 text-center">Ingredients</h2>
         {ingredients.map((ingredient, index) => (

@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 const cookieParser = require('cookie-parser');
 const { default: mongoose } = require("mongoose");
 const User = require("./models/User");
@@ -17,6 +18,7 @@ app.use(cors({
   credentials: true,
   origin: 'http://localhost:5173',
 }));
+app.use('/uploads', express.static(__dirname+'/uploads'));
 
 mongoose.connect(process.env.MONGO_URL);
 
@@ -72,6 +74,55 @@ app.get('/profile', (req, res) => {
 app.post('/logout', (req, res) => {
   res.cookie('token', '').json(true);
 });
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Directory to store uploaded files
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    const filename = Date.now() + '-' + Math.round(Math.random() * 1E9) + ext;
+    cb(null, filename); // Unique filename
+  }
+});
+
+const upload = multer({ storage: storage });
+app.post('/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+  // File information
+  const file = req.file;
+  const fileUrl = `http://localhost:4000/uploads/${file.filename}`;
+  res.json({ imageUrl: fileUrl });
+});
+
+app.post('/recipes', (req, res) => {
+  console.log("post recipe called")
+  const { token } = req.cookies;
+  const {
+    title,
+    coverImage,
+    ingredients,
+    instructions
+  } = req.body;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    try {
+      const recipeDoc = await Recipe.create({
+        owner: userData.id,
+        title,
+        coverImage, 
+        ingredients, 
+        instructions
+      });
+      res.json(recipeDoc);
+    } catch (error) {
+      res.status(500).json({ error: 'Error creating recipe' });
+    }
+  });
+});
+
 
 
 app.listen(4000);

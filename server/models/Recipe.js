@@ -13,9 +13,14 @@ const ingredientSchema = new mongoose.Schema({
 }, { _id: false }); // no need for ID
 
 const recipeSchema = new mongoose.Schema({
+  owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   title: {
     type: String,
     required: true
+  },
+  coverImage: {
+    type: String,
+    required: false
   },
   ingredients: [ingredientSchema],
   instructions: {
